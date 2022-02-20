@@ -1,0 +1,17 @@
+@charset "UTF-8";
+
+body {background-color: #fafafa;}
+
+#signInBox {margin: auto; width: 850px; height: 600px; margin-top: 100px; margin-bottom: 100px;}
+#image {width: 400px;}
+
+
+#signIn {background-color: white; width: 400px; height: 450px; margin-top: 50px;
+			border: 0.5px solid; border-color: #c4c4c4;}
+#signInText1 {font-size: 20px; text-align: center;}
+#signInText2 {font-size: 20px; font-weight: bold; color: blue; text-decoration: none; }
+
+input[type="text"] {background-color: #fafafa;}
+input[type="password"] {background-color: #fafafa;}
+
+

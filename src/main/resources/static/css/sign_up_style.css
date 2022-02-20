@@ -1,0 +1,9 @@
+@charset "UTF-8";
+body {background-color: #fafafa; }
+
+#signUpBox { background-color: white; margin: auto; width: 400px; height: 600px; margin-top: 100px; margin-bottom: 100px;
+			border: 0.5px solid; border-color: #c4c4c4;}
+.signUpText {font-size:20px; color: #6e6e6e; text-align: center; font-weight: bold;}
+
+input[type="text"] {background-color: #fafafa;}
+input[type="password"] {background-color: #fafafa;}
