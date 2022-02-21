@@ -17,4 +17,8 @@ public class UserBO {
 	public List<User> getUserList(){
 		return userDAO.selectUserList();
 	}
+	
+	public boolean existUserId(String loginId) {
+		return userDAO.existUserId(loginId);
+	}
 }

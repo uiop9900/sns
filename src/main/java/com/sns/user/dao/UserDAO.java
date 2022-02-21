@@ -10,4 +10,6 @@ import com.sns.user.model.User;
 public interface UserDAO {
 
 	public List<User> selectUserList();
+	
+	public boolean existUserId(String loginId);
 }
