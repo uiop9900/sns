@@ -29,28 +29,28 @@
 		</div>
 		
 		<%--이름 입력 --%>
-		<div class="mt-2 d-flex justify-content-center">
+		<div class="mt-3 d-flex justify-content-center">
 			<input type="text" id="name" class="form-control col-10" placeholder="이름">
 		</div>
 		
 		<%--아이디 입력, 중복확인 --%>
-		<div class="mt-2 d-flex justify-content-center">
+		<div class="mt-3 d-flex justify-content-center">
 			<input type="text" id="loginId" class="form-control col-7" placeholder="아이디">
 			<button id="isDuplicate" class="btn btn-primary ml-2 col-3">중복확인</button>
 		</div>
 		<div class="ml-5"><small id="isTooShort" class="text-danger font-weight-bold d-none">4글자 이상 입력해주세요.</small></div>
 		<div class="ml-5"><small id="isCheckDuplicated" class="text-danger font-weight-bold d-none">이미 사용중인 아이디 입니다.</small></div>
-		<div class="ml-5"><small id="isIdOk" class="text-success font-weight-bold d-none">사용가능한 아이디입니다.</small></div>
+		<div class="ml-5"><small id="isIdOk" class="text-primary font-weight-bold d-none">사용가능한 아이디입니다.</small></div>
 		
 		<%--비밀번호 확인 --%>
-		<div class="mt-2 d-flex justify-content-center">
+		<div class="mt-3 d-flex justify-content-center">
 			<input type="password" id="password" class="form-control col-10" placeholder="비밀번호">
 		</div>
-		<small class="font-weight-bold text-danger ml-5">사용불가능한 비밀번호 입니다.</small><br>
-		<small class="font-weight-bold text-primary ml-5 d-none">사용가능한 비밀번호 입니다.</small>
+		<div id="checkPassword" class="font-weight-bold text-success small ml-5">최소 8자 이상으로 영문, 숫자, 하나 이상의 특수문자를<br> 혼합해서 입력해주세요.</div><br>
+		<div id="isOkPassword" class="font-weight-bold text-primary small ml-5 d-none">사용가능한 비밀번호 입니다.</div>
 		
 		<%--가입버튼 --%>
-		<div class="mt-5 d-flex justify-content-center">
+		<div class="mt-4 d-flex justify-content-center">
 			<button type="button" id="signUpBtn" class="btn btn-primary b-block col-10" >가입</button>
 		</div>
 	</div>
@@ -58,6 +58,7 @@
 <script>
 $(document).ready(function(e){
 	
+	//ajax를 통해 아이디 중복 확인
 	$("#isDuplicate").on('click', function(e){
 		let loginId = $("#loginId").val().trim();
 		
@@ -73,10 +74,10 @@ $(document).ready(function(e){
 		$.ajax({
 			type: "POST"
 			, url: "/user/is_duplicated_id"
-			, date: {"loginId":loginId}
+			, data: {"loginId":loginId}
 			, success: function(data){
 				if(data.result) {
-					//중복
+					//중복(true)
 					$("#isCheckDuplicated").removeClass('d-none');
 				} else {
 					$("#isIdOk").removeClass('d-none');
@@ -89,13 +90,27 @@ $(document).ready(function(e){
 		
 	});
 	
-	
-	
-	
-	
+	// 정규표현식을 통한 비밀번호 문구뜨기 
+	$("#password").on("propertychange change keyup paste input", function(e){
+		let password = $(this).val();
+		let passwordRule = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
+		let testResult = passwordRule.test(password)
+		
+ 		if (testResult) {
+			$("#isOkPassword").removeClass('d-none');
+			$("#checkPassword").addClass('d-none');
+			return false;
+		}
+		
+	});
+		
+	// 가입버튼을 누를때 validation check
 	$("#signUpBtn").on('click', function(e){
 		let email = $("#email").val();
 		let name = $("#name").val();
+		let loginId = $("#loginId").val();
+		let password = $("#password").val();
+		
 		
 		if (email == "") {
 			alert("이메일을 입력하세요.");
@@ -107,9 +122,44 @@ $(document).ready(function(e){
 			return;
 		}
 		
+		if (loginId == "") {
+			alert("아이디를 입력하세요.");
+			return;
+		}
 		
+		if (password == "") {
+			alert("비밀번호를 입력하세요.");
+			return;
+		}
+		
+		if ($("#isIdOk").hasClass('d-none')) {
+			alert("아이디 중복확인을 해주세요.");
+			return;
+		} 
+		
+		if ( $("#isOkPassword").hasClass('d-none')) {
+			alert("비밀번호를 다시 입력해주세요.");
+			return;
+		}
+			
+		let url = "/user/sign_up"
+		let params = {'loginId':loginId, 'email':email, 'name':name, 'password':password}
+		$.post(url, params)
+		.done(function(data){
+			if (data.result == 'success'){
+				alert('회원가입이 완료되었습니다. 로그인을 해주세요.');
+				location.href="/user/sign_in_view"
+			} else if (data.result == 'fail') {
+				alert("회원가입이 실패했습니다. 다시 시도해주세요.");
+				location.reload();
+			}
+		});
 		
 	});
+	
+
+		
+	
 });
 
 </script>
