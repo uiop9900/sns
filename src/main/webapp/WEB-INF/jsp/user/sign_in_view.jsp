@@ -20,28 +20,73 @@
 		<section id="signInImages">
 			<img src="/images/sign_in.jpg" id="image" alt="image">
 		</section>
-		<section id="signIn">
-			<div class="d-flex justify-content-center pt-4">
-				<img src="/images/logo.png" alt="instagram logo">
-			</div>
-			<div class="mt-4 d-flex justify-content-center">
-				<input type="text" class="form-control col-10" placeholder="아이디">
-			</div>
-			<div class="mt-2 d-flex justify-content-center">
-				<input type="password" class="form-control col-10" placeholder="비밀번호">
-			</div>
-			<div class="mt-4 d-flex justify-content-center">
-				<button type="button" class="btn btn-primary b-block col-10">로그인</button>
-			</div>
-			
-			<br><hr><br>
-			
-			<div id="signInText1">계정이 없으신가요?</div>
-			<div class="text-center mt-2">
-				<a href="/user/sign_up_view" id="signInText2">가입하기</a>
-			</div>
-			
-		</section>
+		<form id="logInForm" method="post" action="/user/sign_in">
+			<section id="signIn">
+				<div class="d-flex justify-content-center pt-4">
+					<img src="/images/logo.png" alt="instagram logo">
+				</div>
+				<div class="mt-4 d-flex justify-content-center">
+					<input type="text" id="loginId" name="loginId" class="form-control col-10" placeholder="아이디">
+				</div>
+				<div class="mt-2 d-flex justify-content-center">
+					<input type="password" id="password" name="password" class="form-control col-10" placeholder="비밀번호">
+				</div>
+				<div class="mt-4 d-flex justify-content-center">
+					<a href="#" id="signInBtn" class="btn btn-primary b-block col-10">로그인</a>
+				</div>
+				
+				<br><hr><br>
+				
+				<div id="signInText1">계정이 없으신가요?</div>
+				<div class="text-center mt-2">
+					<a href="/user/sign_up_view" id="signInText2">가입하기</a>
+				</div>
+				
+			</section>
+		</form>
 	</div>
+
+<script>
+$(document).ready(function(e){
+	//아이디, 비밀번호에서 엔터키 치면 submit
+	$("#password, #loginId").keydown(function(e){
+		
+		//엔터를 치면 유효성검사 후 submit된다.
+		if(e.keyCode == 13) {
+			//validation
+			let loginId = $("#loginId").val().trim();
+			let password = $("#password").val();
+			
+			if(loginId == "") {
+				alert("아이디를 입력하세요.");
+				return;
+			}
+			
+			if (password == ""){
+				alert("비밀번호를 입력하세요.");
+				return;
+			}
+
+			$("#logInForm")[0].submit(); //결국 name속성이 필요
+		}
+		
+			//submit될때 ajax 호출한다.
+			let url = $("#logInForm").attr('action')
+			let params = {"loginId":loginId, "password":password};
+			
+			$.post(url, params)
+			.done(function(data){
+				if (data.result == 'success') {
+					location.href= "/timeline/timeline_list_view"
+				} else {
+					alert("로그인에 실패했습니다. 관리자에게 문의하세요.");
+				}
+			});
+		
+		
+	});
+});
+
+</script>
 </body>
 </html>

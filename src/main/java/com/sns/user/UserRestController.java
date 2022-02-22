@@ -67,4 +67,28 @@ public class UserRestController {
 		return result;
 	}
 	
+	//로그인 로직
+	@PostMapping("/sign_in")
+	public Map<String, Object> signIn(
+			@RequestParam("loginId") String loginId,
+			@RequestParam("password") String password
+			) {
+		
+		//암호화
+		String encryptPassword = EncryptUtils.md5(password);
+		
+		//아이디 확인
+		User user = userBO.getUserByLoginIdPassword(loginId, encryptPassword);
+		
+		// 결과값 내리기
+		Map<String, Object> result = new HashMap<>();
+		result.put("result", "success");
+		if (user == null) {
+			result.put("result", "fail");
+		}
+		
+		return result;
+	}
+	
+	
 }
