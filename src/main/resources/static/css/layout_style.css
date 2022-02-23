@@ -1,3 +1,11 @@
 @charset "UTF-8";
 
+body {background-color:  #fafafa;}
+#wrap {margin: auto; padding-top: 20px; padding-left: 20px; width: 800px; height: 900px; }
 #headerLogo {width: 200px;}
+
+.heartLogo {margin-left: auto; margin-right: 20px;}
+.heartLogo img {width: 60px;}
+
+.profile {position: relative; width: 60px; height: 60px; border-radius: 50%; overflow: hidden;  margin-right: 50px;}
+.profile img {position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; object-fit: cover;}

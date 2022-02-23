@@ -66,9 +66,6 @@ $(document).ready(function(e){
 				alert("비밀번호를 입력하세요.");
 				return;
 			}
-
-			$("#logInForm")[0].submit(); //결국 name속성이 필요
-		}
 		
 			//submit될때 ajax 호출한다.
 			let url = $("#logInForm").attr('action')
@@ -82,7 +79,7 @@ $(document).ready(function(e){
 					alert("로그인에 실패했습니다. 관리자에게 문의하세요.");
 				}
 			});
-		
+		}
 		
 	});
 });

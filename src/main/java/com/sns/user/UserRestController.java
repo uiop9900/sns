@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -71,7 +74,8 @@ public class UserRestController {
 	@PostMapping("/sign_in")
 	public Map<String, Object> signIn(
 			@RequestParam("loginId") String loginId,
-			@RequestParam("password") String password
+			@RequestParam("password") String password,
+			HttpServletRequest request
 			) {
 		
 		//암호화
@@ -82,10 +86,17 @@ public class UserRestController {
 		
 		// 결과값 내리기
 		Map<String, Object> result = new HashMap<>();
-		result.put("result", "success");
-		if (user == null) {
+		
+		if (user != null) {
+			result.put("result", "success");
+			HttpSession session = request.getSession();
+			session.setAttribute("loginId", user.getLoginId());
+			session.setAttribute("userName", user.getName());
+			session.setAttribute("userId", user.getId());
+		} else {
 			result.put("result", "fail");
 		}
+		
 		
 		return result;
 	}
