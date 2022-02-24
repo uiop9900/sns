@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -29,5 +30,11 @@ public class UserController {
 		session.removeAttribute("userId");
 		
 		return "user/sign_in_view";
+	}
+	
+	@RequestMapping("my_page_view")
+	public String myPageView(Model model) {
+		model.addAttribute("viewName", "user/my_page_view");
+		return "template/layout";
 	}
 }

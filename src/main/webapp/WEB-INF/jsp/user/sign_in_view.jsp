@@ -75,7 +75,7 @@ $(document).ready(function(e){
 			.done(function(data){
 				if (data.result == 'success') {
 					location.href= "/timeline/timeline_list_view"
-				} else {
+				} else if((data.result == 'fail')) {
 					alert("로그인에 실패했습니다. 관리자에게 문의하세요.");
 				}
 			});
