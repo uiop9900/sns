@@ -1,11 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 	<div class="d-flex">
 		
 		<%--프로필 사진 --%>
 		<div id="mypageProfileImage">
-			<img src="/images/profileImage.jpg" alt="profile-image">
+			<c:if test="${not empty user.profileImageUrl}">
+				<img src="${user.profileImageUrl}" alt="profile-image">
+			</c:if>
+			${user.profileImageUrl}
+			<img src="/images/default_profile_image.gif" alt="profile-image">
 		</div>
 	
 	
@@ -13,7 +18,7 @@
 		
 			<%--아이디와 프로필편집 버튼(사진, 소개, 이름 변경/추가가능) --%>
 			<div class="d-flex">
-				<div class="display-4 userId w-100">userId</div>
+				<div class="display-4 userId w-100">${loginId}</div>
 				<a href="/user/profile_modify_view" id="modifyProfileBtn" class="btn btn-primary">프로필 편집</a>
 			</div>
 			
@@ -31,7 +36,7 @@
 			</div>
 			<%--이름과 자기소개 --%>
 			<div class="ml-4 mt-3">
-				<div class="font-weight-bold">이지아</div>
+				<div class="font-weight-bold">${userName}</div>
 				<div>안녕? 나는 이지아야. 내 피드에 놀러와! </div>
 			</div>
 			

@@ -76,7 +76,7 @@ $(document).ready(function(e){
 				if (data.result == 'success') {
 					location.href= "/timeline/timeline_list_view"
 				} else if((data.result == 'fail')) {
-					alert(data.result.errorMessage);
+					alert(data.errorMessage);
 				}
 			});
 		}

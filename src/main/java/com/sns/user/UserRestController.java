@@ -107,15 +107,22 @@ public class UserRestController {
 	@RequestMapping("/user_profile_modify")
 	public Map<String, Object> userProfileModify(
 			@RequestParam(value="introduce", required=false) String introduce,
-			@RequestParam(value="file", required=false) MultipartFile file
-			
+			@RequestParam(value="file", required=false) MultipartFile file,
+			HttpServletRequest request
 			) {
 		
+		// 세션에서 userId 꺼냄
+		HttpSession session = request.getSession();
+		String loginId = (String)session.getAttribute("loginId");
+		
 		// TODO: id로 사용자를 찾아서 사진path와 자기소개를 넣는다(nullable)
+		userBO.updateProfileIntroduceByLoginId(loginId, introduce, file);
+		
 		
 		// map을 return한다.
 		Map<String, Object> result = new HashMap<>();
 		result.put("result", "success");
+		
 		
 		return result;
 	}
