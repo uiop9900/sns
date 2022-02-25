@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.sns.common.EncryptUtils;
 import com.sns.user.bo.UserBO;
@@ -95,11 +96,28 @@ public class UserRestController {
 			session.setAttribute("userId", user.getId());
 		} else {
 			result.put("result", "fail");
+			result.put("errorMessage", "로그인이 실패했습니다. 아이디와 비밀번호를 확인해주세요.");
 		}
-		
 		
 		return result;
 	}
 	
+	
+	// 프로필 수정하기
+	@RequestMapping("/user_profile_modify")
+	public Map<String, Object> userProfileModify(
+			@RequestParam(value="introduce", required=false) String introduce,
+			@RequestParam(value="file", required=false) MultipartFile file
+			
+			) {
+		
+		// TODO: id로 사용자를 찾아서 사진path와 자기소개를 넣는다(nullable)
+		
+		// map을 return한다.
+		Map<String, Object> result = new HashMap<>();
+		result.put("result", "success");
+		
+		return result;
+	}
 	
 }

@@ -32,9 +32,16 @@ public class UserController {
 		return "user/sign_in_view";
 	}
 	
-	@RequestMapping("my_page_view")
+	@RequestMapping("/my_page_view")
 	public String myPageView(Model model) {
 		model.addAttribute("viewName", "user/my_page_view");
+		return "template/layout";
+	}
+	
+	@RequestMapping("/profile_modify_view")
+	public String profileModifyView(Model model) {
+		model.addAttribute("viewName", "user/profile_modify_view");
+		
 		return "template/layout";
 	}
 }

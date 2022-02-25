@@ -19,4 +19,32 @@
 	<div>
 		<img src="/images/heart.png" alt="heart-logo" class="heartLogo">
 	</div>
+	
+	<%--댓글쓰기 --%>
+	<c:if test="${not empty userId}"> <%--로그인된 사람만 쓸수있다. --%>
+		<div>
+			<input type="text" id="commentText${post.id}" class="form-control border-0 mr-2" placeholder="댓글">
+			<button type="button" class="commentBtn btn btn-light" data-post-id="${post.id}">게시</button>
+		</div>
+	</c:if>
+	
 </div>
+
+<script>
+$(document).ready(function(e){
+	//댓글 게시버튼 클릭
+	$('.commentBtn').on('click', function(e){
+		let postId = $(this).data('post-id'); //data-post-id : 무조건 -으로 연결
+		alert(postId);
+		
+		//commentText2 이런식으로
+		let commentContent = $("#commentText" + postId).val().trim(); //게시글에 대한 댓글을 작성한다.
+		alert("commentCotent");
+	});
+	
+	
+});
+
+</script>
+
+
