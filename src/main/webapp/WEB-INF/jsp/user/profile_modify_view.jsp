@@ -3,7 +3,7 @@
 <div class="mt-5">
     <div class="d-flex">
 	    <button id="profileImageModify" class="btn btn-secondary">프로필 사진 변경하기</button>
-	    <input type="file" id="file" class="d-none" accept=".jpg,.gif,.jepg,.png">
+	    <input type="file" id="file" class="d-none" accept=".jpg,.gif,.jpeg,.png">
 	    <div id="fileName" class="ml-2 mt-1"></div>
 	</div>
 	
@@ -25,8 +25,8 @@ $(document).ready(function(e){
 		
 		let extension = fileName.split('.').pop().toLowerCase();
 		
-		if ($.inArray(extension, ['jpg','gif','jepg','png']) == -1) {
-			alert("gif, png, jpg, jepg 파일만 업로드 할 수 있습니다.");
+		if ($.inArray(extension, ['jpg','gif','jpeg','png']) == -1) {
+			alert("gif, png, jpg, jpeg 파일만 업로드 할 수 있습니다.");
 			$("#file").val("");
 			return;
 		}

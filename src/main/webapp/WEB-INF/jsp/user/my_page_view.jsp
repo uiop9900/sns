@@ -6,11 +6,14 @@
 		
 		<%--프로필 사진 --%>
 		<div id="mypageProfileImage">
-			<c:if test="${not empty user.profileImageUrl}">
-				<img src="${user.profileImageUrl}" alt="profile-image">
-			</c:if>
-			${user.profileImageUrl}
-			<img src="/images/default_profile_image.gif" alt="profile-image">
+			<c:choose>
+				<c:when test="${not empty profileImageUrl}">
+					<img src="${user.profileImageUrl}" alt="profile-image">
+				</c:when>
+				<c:otherwise>
+					<img src="/images/default_profile_image.gif" alt="profile-image">
+				</c:otherwise>
+			</c:choose>
 		</div>
 	
 	
@@ -37,7 +40,7 @@
 			<%--이름과 자기소개 --%>
 			<div class="ml-4 mt-3">
 				<div class="font-weight-bold">${userName}</div>
-				<div>안녕? 나는 이지아야. 내 피드에 놀러와! </div>
+				<div>${user.introduce}</div>
 			</div>
 			
 		</div>

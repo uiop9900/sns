@@ -94,6 +94,7 @@ public class UserRestController {
 			session.setAttribute("loginId", user.getLoginId());
 			session.setAttribute("userName", user.getName());
 			session.setAttribute("userId", user.getId());
+			session.setAttribute("profileImageUrl", user.getProfileImageUrl());
 		} else {
 			result.put("result", "fail");
 			result.put("errorMessage", "로그인이 실패했습니다. 아이디와 비밀번호를 확인해주세요.");
@@ -117,8 +118,12 @@ public class UserRestController {
 		
 		// TODO: id로 사용자를 찾아서 사진path와 자기소개를 넣는다(nullable)
 		userBO.updateProfileIntroduceByLoginId(loginId, introduce, file);
+		User user = userBO.getUserByLoginId(loginId);
 		
-		
+		if (file != null) {
+			session.setAttribute("profileImageUrl", user.getProfileImageUrl());
+		}
+		 
 		// map을 return한다.
 		Map<String, Object> result = new HashMap<>();
 		result.put("result", "success");

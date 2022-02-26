@@ -11,12 +11,19 @@
 	</div>
 	
 	<div class="profile">
-		<a href="/user/my_page_view"><img src="/images/default_profile_image.gif" alt="profile image"></a>
+		<c:choose>
+			<c:when test="${not empty profileImageUrl}">
+				<a href="/user/my_page_view"><img src="${profileImageUrl}" alt="profile-image"></a>
+			</c:when>
+			<c:otherwise>
+				<a href="/user/my_page_view"><img src="/images/default_profile_image.gif" alt="profile-image"></a>
+			</c:otherwise>
+		</c:choose>
 	</div>
 	
 	
-	<div class="mt-2 ml-1 mr-2 font-weight-bold">
-		${loginId}
+	<div class="mt-2 mr-2 font-weight-bold">
+		<a href="/user/my_page_view" class="text-decoration-none text-dark">${loginId}</a>
 	</div>
 		
 </div>
