@@ -27,6 +27,8 @@ public interface UserDAO {
 	
 	public User selectUserByLoginId(String loginId);
 	
+	public User selectUserById(int userId);
+	
 	public void updateProfileIntroduceByLoginId(
 			@Param("loginId") String loginId, 
 			@Param("introduce") String introduce, 

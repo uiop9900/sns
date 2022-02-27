@@ -66,6 +66,23 @@
 			`loginId` = #{loginId}
 	</select>
 	
+	<select id="selectUserById" parameterType="int" resultType="com.sns.user.model.User">
+		SELECT
+			`id`
+			,`loginId`
+			,`password`
+			,`name`
+			,`email`
+			,`introduce`
+			,`profileImageUrl`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`user`
+		WHERE
+			`id` = #{id}
+	</select>
+	
 	
 	<select id="selectUserByLoginIdPassword" parameterType="map" resultType="com.sns.user.model.User">
 	 	SELECT

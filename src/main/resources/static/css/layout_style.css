@@ -13,7 +13,7 @@ body {background-color:  #fafafa;}
 
 
 
-.timline-card {margin: auto; width: 600px; height: 750px; border-style: solid; border-width: 0.5px; border-color: #ababab;}
+.timline-card {margin: auto; width: 600px; height: 800px; border-style: solid; border-width: 0.5px; border-color: #ababab;}
 .timeline-otherUser {margin-bottom:10px; border-width: 0.5px; border-color: #ababab;}
 .timeline-profile {position: relative; width: 40px; height: 40px; border-radius: 50%; overflow: hidden; margin-left: 10px; margin-top: 10px;
 					border-style: solid; border-width: 0.5px; border-color: #ababab;}

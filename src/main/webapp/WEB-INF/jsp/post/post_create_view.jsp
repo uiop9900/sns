@@ -3,11 +3,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <div id="post-box">
-    <textarea id="content" class="form-control mt-5" rows="10" placeholder="내용을 입력하세요."></textarea>
-   	<input type="file" id="file" class="d-none" accept=".jpg,.gif,.jepg,.png"> 
-   	<a href="#" id="fileUploadBtn" ><img src="/images/logo.png" alt=""></a> 
-    <div id="fileName" class="ml-2">
+	<div class="mt-4">
+	   	<input type="file" id="file" class="d-none" accept=".jpg,.gif,.jepg,.png"> 
+	   	<a href="#" id="fileUploadBtn" ><img src="/images/postPicture.png" alt="add picture" width="100"></a> 
+	   	<span class="font-weight-bold">게시글 사진 추가</span>
+	</div>
+    <div id="fileName" class="mt-4 ml-5">
     </div>
+
+    <textarea id="content" class="form-control mt-5" rows="10" placeholder="내용을 입력하세요."></textarea>
     
     <div class="d-flex justify-content-center">
     	<button id="postBtn" class="btn btn-primary w-100 mt-4">업로드 하기</button>
@@ -16,9 +20,6 @@
 
 <script>
 $(document).ready(function(e){
-	$("#postBtn").on('click', function(e){
-		$("#content").val()
-	});
 	
 	//파일업로드 이미지 클릭
 	$("#fileUploadBtn").on('click', function(e) {
@@ -50,6 +51,36 @@ $(document).ready(function(e){
 	
 	});
 	
+	$("#postBtn").on('click', function(e){
+		let content = $("#content").val()
+		
+		let formData = new FormData();
+		formData.append('userId', ${userId});
+		formData.append('content', content);
+		formData.append('file', $("#file")[0].files[0]);
+		
+		$.ajax({
+			type: "post"
+			, url: "/post/create"
+			, data: formData
+			, enctype: "multipart/form-data"
+			, processData: false
+			, contentType: false
+			, success: function(data){
+				if (data.result == 'success') {
+					alert("성공적으로 게시되었습니다.");
+					location.href="/timeline/timeline_list_view"
+				} else if (data.result == 'fail') {
+					alert("실패했습니다. 다시 업로드 해주세요.");
+					location.reload();
+				}
+			}
+			, error: function(e) {
+				alert(error);
+			}	
+		});
+		
+	});
 	
 	
 });
