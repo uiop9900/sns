@@ -10,9 +10,15 @@ import com.sns.comment.bo.CommentBO;
 import com.sns.comment.model.Comment;
 import com.sns.post.bo.PostBO;
 import com.sns.post.model.Post;
+import com.sns.timeline.model.ContentView;
+import com.sns.user.bo.UserBO;
+import com.sns.user.model.User;
 
 @Service
 public class ContentBO {
+	
+	@Autowired
+	private UserBO userBO;
 	
 	@Autowired
 	private PostBO postBO;
@@ -23,16 +29,30 @@ public class ContentBO {
 
 	//@Autowired private LikeBO likeBO;
 	// 객체가공할때 ->generate, get/ 다른패키지의 bo,dao부를수있다.
-	public void List<ContentView> generateContentViewList(Integer userId) { // 로그인되지않아도 타임라인은 볼 수 있으므로 userId는 Integer이다.
+	public List<ContentView> generateContentViewList(Integer userId) { // 로그인되지않아도 타임라인은 볼 수 있으므로 userId는 Integer이다.
 		
-		List<ContentView> contentView = new ArrayList<>();
-		List<Comment> commentList = new ArrayList<>();
+		List<ContentView> contentViewList = new ArrayList<>();
 		
-		// 포스트 리스트
-		List<Post> postList = postBO.getPostList(); 
-		for (int i = 1; i <= postList.size(); i++) { //post의 수가 postId이다.
-			contentView.add((ContentView) commentBO.getCommetListByPostId(i)); // 전체 댓글이 들어가있다.
+		
+		List<Post> postList = postBO.getPostList();
+		for (Post post: postList) { //글 개수만큼 post하나씩 꺼낸다: 향상된 for문
+			ContentView content = new ContentView();// 각 칸에 다른 글이 들어가야 하기때문에 post개수만큼 새로 생성한다.
+			// 글정보
+			content.setPost(post);
+			
+			//글마다 다른 글쓴이 정보
+			User user = userBO.getUserById(post.getUserId());
+			content.setUser(user);//포스트를 쓴 user정보
+			
+			//댓글
+			List<Comment> commentList = commentBO.getCommetListByPostId(post.getId());
+			content.setCommentList(commentList); //post에 따른 댓글 정보 
+			
+			
+			contentViewList.add(content);
 		}
+
+		return contentViewList;
 		
 		}
 	

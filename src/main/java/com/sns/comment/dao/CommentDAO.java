@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.sns.comment.model.Comment;
+import com.sns.comment.model.CommentView;
 
 @Repository
 public interface CommentDAO {
@@ -16,4 +17,5 @@ public interface CommentDAO {
 			@Param("postId") int postId); 
 	
 	public List<Comment> selectCommetListByPostId(int postId);
+	
 }

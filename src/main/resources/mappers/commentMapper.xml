@@ -26,7 +26,7 @@
 	<select id="selectCommetListByPostId" resultType="com.sns.comment.model.Comment">
 		SELECT 
 			`id`
-			,`loginId`
+			,`userId`
 			,`postId`
 			,`content`
 			,`createdAt`
