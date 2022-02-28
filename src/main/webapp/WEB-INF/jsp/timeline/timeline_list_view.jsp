@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <c:forEach var="content" items="${contentList}">
-	<div class="timline-card mt-3">
+	<div class="timline-card mt-5">
 		<%--프로필 사진과 아이디 --%>
 		<div class="d-flex align-items-center timeline-otherUser">
 			<div class="timeline-profile">
@@ -41,14 +41,11 @@
 		</div>
 		
 		<%--댓글쓰기 --%>
-		<c:if test="${empty content.commentList}">
-			<div class="font-weight-bold">댓글</div>
-		</c:if>
-			<div class="d-flex">
-				<div class="commentList ml-2">${content.user.loginId}</div>
-				<c:forEach var="comment" items="${content.commentList}">
-					<div class="commentList ml-3">${comment.content}</div>
-				</c:forEach> 
+			<div>
+			<c:forEach var="commentView" items="${content.commentList}">
+					<span class="ml-2 font-weight-bold">${commentView.user.loginId} :</span>
+					<span class="ml-3">${commentView.comment.content}</span><br>
+				</c:forEach>  
 			</div>
 		<c:if test="${not empty userId}"> <%--로그인된 사람만 쓸수있다. --%>
 			<div class="d-flex justify-content-between">

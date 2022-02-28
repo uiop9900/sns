@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sns.comment.bo.CommentBO;
-import com.sns.comment.model.Comment;
+import com.sns.comment.model.CommentView;
 import com.sns.post.bo.PostBO;
 import com.sns.post.model.Post;
 import com.sns.timeline.model.ContentView;
@@ -33,7 +33,6 @@ public class ContentBO {
 		
 		List<ContentView> contentViewList = new ArrayList<>();
 		
-		
 		List<Post> postList = postBO.getPostList();
 		for (Post post: postList) { //글 개수만큼 post하나씩 꺼낸다: 향상된 for문
 			ContentView content = new ContentView();// 각 칸에 다른 글이 들어가야 하기때문에 post개수만큼 새로 생성한다.
@@ -44,9 +43,9 @@ public class ContentBO {
 			User user = userBO.getUserById(post.getUserId());
 			content.setUser(user);//포스트를 쓴 user정보
 			
-			//댓글
-			List<Comment> commentList = commentBO.getCommetListByPostId(post.getId());
-			content.setCommentList(commentList); //post에 따른 댓글 정보 
+			//댓글 - 따로 commentView만든
+			List<CommentView> commentList = commentBO.generateCommentViewListByPostId(post.getId());
+			content.setCommentList(commentList);
 			
 			
 			contentViewList.add(content);
