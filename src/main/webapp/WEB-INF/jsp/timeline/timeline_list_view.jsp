@@ -27,9 +27,8 @@
 		
 		<%--좋아요 --%>
 		<div class="d-flex">
-			<div class="likeBtn">
-				<a href="#"><img src="/images/heart.png" alt="heart-logo" class="heartLogo noLike"></a>
-				<a href="#" class="like"><img src="/images/black_heart.png" alt="heart-logo" class="like mt-2 d-none" width="50"></a>
+			<div class="likeBtn" data-user-id="${userId}" data-post-id="${content.post.id}" >
+				<a href=><img src="/images/heart.png" alt="heart-logo" class="heartLogo noLike"></a>
 			</div>
 			<div class="font-weight-bold mt-3">100</div>
 		</div>
@@ -89,14 +88,31 @@ $(document).ready(function(e){
 	// like를 누르면 toggle된다.
 	$(".likeBtn").on('click',function(e){
 		
-		if ( $(".noLike").hasClass("d-none") ) {
-			$(".noLike").removeClass("d-none");
-			$(".like").addClass("d-none");
-		} else if ( $(".like").hasClass("d-none")){
-			 $(".like").removeClass("d-none");
-			 $(".noLike").addClass("d-none");
+		// 버튼을 누르면 세션값을 가지고 온다.
+		let userId = $(this).data('user-id');
+		let postId = $(this).data('post-id');
+		
+		if (userId == null) {
+			alert("로그인하세요");
+			location.href="/user/sign_in_view"
+			return false 
 		}
 		
+		$.ajax({
+			type: "get"
+			, url: "/like/" + postId
+			, data: {"userId":userId, "postId":postId}
+			, success: function(data) {
+				if (data.result == 'success'){
+					alert("'좋아요' 완료");
+				} else if(data.result == 'fail') {
+					alert("다시 '좋아요'를 눌러주세요! ");
+				}
+			}
+			, error: function(e) {
+				alert("error");
+			}
+		});
 		
 	});
 	
