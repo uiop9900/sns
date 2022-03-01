@@ -39,9 +39,15 @@
 				
 				<div id="signInText1">계정이 없으신가요?</div>
 				<div class="text-center mt-2">
-					<a href="/user/sign_up_view" id="signInText2">가입하기</a>
+					<a href="/user/sign_up_view" class="signInText2">가입하기</a>
 				</div>
 				
+				<hr>
+				
+				<div class="text-center mt-2">
+					<a href="/timeline/timeline_list_view" class="signInText2">구경할래요!</a>
+				</div>
+			
 			</section>
 		</form>
 	</div>
