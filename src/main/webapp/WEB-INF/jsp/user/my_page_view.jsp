@@ -46,9 +46,22 @@
 		</div>
 	</div>
 		<%--게시글 추가 버튼 --%>
-		<div class="mt-4">
-			<a href="/post/post_create_view" class="btn btn-primary btn-block w-75">게시글 업로드</a>
+	<div class="mt-4">
+		<a href="/post/post_create_view" class="btn btn-primary btn-block w-75">게시글 업로드</a>
+	 </div>
+	 	
+	 <div id="myPageContent" class="mt-5">
+	 	<div class="d-flex flex-wrap justify-content-around">
+	 	<c:forEach begin="1" end="5" step="1">
+	 		<div class="myPageContent mt-2">ㅇㅋ</div>
+	 	</c:forEach>
+	 	<div class="myPageContent bg-danger mt-2">ㅇㅋ</div>
 	 	</div>
+	 </div>
+	 
+
+
+
 
 <script>
 $(document).ready(function(e){

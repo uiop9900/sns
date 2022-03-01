@@ -28,7 +28,7 @@
 		<%--좋아요 --%>
 		<div class="d-flex">
 			<div class="likeBtn" data-user-id="${userId}" data-post-id="${content.post.id}" >
-				<a href=><img src="/images/heart.png" alt="heart-logo" class="heartLogo noLike"></a>
+				<a href="#"><img src="/images/heart.png" alt="heart-logo" class="heartLogo noLike"></a>
 			</div>
 			<div class="font-weight-bold mt-3">100</div>
 		</div>
@@ -92,7 +92,7 @@ $(document).ready(function(e){
 		let userId = $(this).data('user-id');
 		let postId = $(this).data('post-id');
 		
-		if (userId == null) {
+		if (userId == "") {
 			alert("로그인하세요");
 			location.href="/user/sign_in_view"
 			return false 

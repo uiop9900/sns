@@ -31,3 +31,5 @@ body {background-color:  #fafafa;}
 
 #modifyProfileBtn {width:110px; height: 40px; margin-top: 45px;  }
 .userId {margin-top: 30px; margin-left: 50px; }
+
+.myPageContent{width:250px; height: 250px; background-color: blue;}
