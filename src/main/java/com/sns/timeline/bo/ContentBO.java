@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.sns.comment.bo.CommentBO;
 import com.sns.comment.model.CommentView;
+import com.sns.like.bo.LikeBO;
+import com.sns.like.model.LikeView;
 import com.sns.post.bo.PostBO;
 import com.sns.post.model.Post;
 import com.sns.timeline.model.ContentView;
@@ -26,6 +28,8 @@ public class ContentBO {
 	@Autowired
 	private CommentBO commentBO;
 	
+	@Autowired
+	private LikeBO likeBO;	
 
 	//@Autowired private LikeBO likeBO;
 	// 객체가공할때 ->generate, get/ 다른패키지의 bo,dao부를수있다.
@@ -47,6 +51,14 @@ public class ContentBO {
 			List<CommentView> commentList = commentBO.generateCommentViewListByPostId(post.getId());
 			content.setCommentList(commentList);
 			
+			// 좋아요 개수 - size로 꺼낸다
+			int likeCount = likeBO.getLikesByPostId(post.getId());
+			content.setLikeCount(likeCount);
+			
+			// 로그인된 사용자의 좋아요 여부 세팅 - 로그인의 여부에 따라
+			// 1: true(좋아요), 0: false(좋아요 안누름)
+			boolean filledLike = likeBO.getLikesByPostIdUserId(userId, post.getId());
+			content.setFilledLike(filledLike);
 			
 			contentViewList.add(content);
 		}
@@ -55,10 +67,5 @@ public class ContentBO {
 		
 		}
 	
-	
-
-		//반복문을 돌려서 글 리스트(postId)를 가지고 오고 
-		//postId를 통해 comment를 가지고오고
-		// 그 가져온 comment를 contentview에 넣고 가져온다?^^...
 	}
 //}

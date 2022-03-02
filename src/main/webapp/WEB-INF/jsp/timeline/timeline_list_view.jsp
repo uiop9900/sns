@@ -28,9 +28,16 @@
 		<%--좋아요 --%>
 		<div class="d-flex">
 			<div class="likeBtn" data-user-id="${userId}" data-post-id="${content.post.id}" >
+				<c:choose>
+				<c:when test= "${content.filledLike == false}">
 				<a href="#"><img src="/images/heart.png" alt="heart-logo" class="heartLogo noLike"></a>
+				</c:when>
+				<c:when test="${content.filledLike == true}">
+					<a href="#"><img src="/images/black_heart.png" alt="heart-logo" class="heartLogo noLike" width="50" height="50"></a>
+				</c:when>
+				</c:choose>
 			</div>
-			<div class="font-weight-bold mt-3">100</div>
+			<div class="font-weight-bold mt-3">${content.likeCount}</div>
 		</div>
 		
 		<%--아이디와 코멘트 --%>
@@ -105,6 +112,7 @@ $(document).ready(function(e){
 			, success: function(data) {
 				if (data.result == 'success'){
 					alert("'좋아요' 완료");
+					location.reload();
 				} else if(data.result == 'fail') {
 					alert("다시 '좋아요'를 눌러주세요! ");
 				}

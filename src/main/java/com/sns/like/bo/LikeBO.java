@@ -1,14 +1,23 @@
 package com.sns.like.bo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sns.like.dao.LikeDAO;
+import com.sns.like.model.Like;
+import com.sns.like.model.LikeView;
+import com.sns.user.bo.UserBO;
 import com.sns.user.model.User;
 
 @Service
 public class LikeBO {
 
+	@Autowired
+	private UserBO userBO;
+	
 	@Autowired
 	private LikeDAO likeDAO;
 	
@@ -16,31 +25,39 @@ public class LikeBO {
 		return likeDAO.insertLike(postId, userId);
 	}
 	
-	
+	//개수만 가져온다
 	public int getLikesByPostId(int postId) {
 		return likeDAO.selectLikesByPostId(postId);
 	}
 	
-	//public List<Like> selectLikeListByPostId(int postId);
+	//user가 있나 찾는다.
+	public boolean getLikesByPostIdUserId(int userId, int PostId) {
+		return likeDAO.getLikesByPostIdUserId(userId, PostId);
+	}
 	
-	//만약 수가 아니라 like한 리스트를 가지고 온다면?
-//	public List<LikeView> selectLikeListByPostId(int postId) {
-	//		List<LikeView> likeViewList = new ArrayList<>();
-		
-	//List<Like> likeList = selectLikeListByPostId(postId);
-		
-	//for(Like like : likeList) {
-	//	LikeView likeView = new LikeView();
-	//	likeView.set(like);
-			
-			//user - 위에서 user Autowired함
-	//	USer user = User getUserById(like.getUserId);
-	//	likeView.set(user);
-	//	
-	//	likeViewList.add(likeView);
-			
-	//}
-		
-	//	}
+	//likeList가져온다
+	public List<Like> getLikeListByPosId(int postId) {
+		return likeDAO.selectLikeListByPostId(postId);
+	}
 	
+	
+	// likeList에 like와 user정보
+	public List<LikeView> getLikeViewListByPostId(int postId) {
+		List<LikeView> likeViewList = new ArrayList<>();
+		
+		List<Like> likeList = getLikeListByPosId(postId);
+		
+		for (Like like : likeList) {
+			LikeView likeView = new LikeView();
+			//포스트별 like객체
+			likeView.setLike(like);
+			
+			//포스트별 like한 user의 정보
+			User user = userBO.getUserById(like.getUserId());
+			likeView.setUser(user);
+			
+			likeViewList.add(likeView);
+		}
+		return likeViewList;
+	}
 }
