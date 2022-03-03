@@ -40,6 +40,15 @@ public class LikeBO {
 		return likeDAO.selectLikeListByPostId(postId);
 	}
 	
+	public void removeLikeByPostIdUserId(int userId, int postId) {
+		boolean likeCount = getLikesByPostIdUserId(userId, postId);
+		
+		if (likeCount == true) {
+			likeDAO.deleteLikeByPostIdUserId(userId, postId);
+		}
+		
+	}
+	
 	
 	// likeList에 like와 user정보
 	public List<LikeView> getLikeViewListByPostId(int postId) {

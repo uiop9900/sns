@@ -57,6 +57,7 @@ public class ContentBO {
 			
 			// 로그인된 사용자의 좋아요 여부 세팅 - 로그인의 여부에 따라
 			// 1: true(좋아요), 0: false(좋아요 안누름)
+			
 			boolean filledLike = likeBO.getLikesByPostIdUserId(userId, post.getId());
 			content.setFilledLike(filledLike);
 			

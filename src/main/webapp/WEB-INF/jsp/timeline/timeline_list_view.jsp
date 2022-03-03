@@ -7,14 +7,16 @@
 		<%--프로필 사진과 아이디 --%>
 		<div class="d-flex align-items-center timeline-otherUser">
 			<div class="timeline-profile">
+			<a href="/user/my_page_view?userId=${content.user.id}" class="userPage">
 			<c:choose>
 				<c:when test="${empty content.user.profileImageUrl}">
-					<img src="/images/default_profile_image.gif" alt="profileImage">
+					<img src="/images/default_profile_image.gif" alt="profileImage" >
 				</c:when>
 				<c:otherwise>				
-				<img src="${content.user.profileImageUrl}" alt="profileImage">
+					<img src="${content.user.profileImageUrl}" alt="profileImage">
 				</c:otherwise>
 			</c:choose>
+			</a>
 			</div>
 			<div class="ml-3 mt-2 timeline-userId">${content.user.loginId}</div>	
 		</div>
@@ -123,7 +125,9 @@ $(document).ready(function(e){
 		});
 		
 	});
-	
+
+
+	 
 });
 
 </script>

@@ -27,16 +27,20 @@
 				<a href="/user/my_page_view"><img src="${profileImageUrl}" alt="profile-image"></a>
 			</c:when>
 			<c:otherwise>
-				<a href="/user/my_page_view"><img src="/images/default_profile_image.gif" alt="profile-image"></a>
+				<a href="/user/my_page_view/{userLoginId}"><img src="/images/default_profile_image.gif" alt="profile-image"></a>
 			</c:otherwise>
 		</c:choose>
 	</div>
 	
 	<div class="mt-2 mr-2 font-weight-bold">
-		<a href="/user/my_page_view" class="text-decoration-none text-dark">${loginId}</a>
+		<a href="/user/my_page_view/{userLoginId}" class="text-decoration-none text-dark">${loginId}</a>
 	</div>
 	</c:if>
 		
 </div>
 <hr>
+
+<script>
+
+</script>
 

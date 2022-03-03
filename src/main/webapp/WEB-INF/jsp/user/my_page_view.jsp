@@ -46,8 +46,11 @@
 		</div>
 	</div>
 		<%--게시글 추가 버튼 --%>
-	<div class="mt-4">
+	<div class="mt-4 d-flex justify-content-between">
 		<a href="/post/post_create_view" class="btn btn-primary btn-block w-75">게시글 업로드</a>
+		<c:if test="${user.loginId == loginId}">
+		<button id="followBtn" class="btn btn-secondary mr-4 font-weight-bold">follow</button>
+		</c:if>
 	 </div>
 	 	
 	 <div id="myPageContent" class="mt-5">
