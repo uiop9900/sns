@@ -1,5 +1,7 @@
 package com.sns.user;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -9,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.sns.post.bo.PostBO;
+import com.sns.post.model.Post;
 import com.sns.user.bo.UserBO;
 import com.sns.user.model.User;
 
@@ -18,6 +22,9 @@ public class UserController {
 
 	@Autowired
 	private UserBO userBO;
+	
+	@Autowired
+	private PostBO postBO;
 	
 	@RequestMapping("/sign_in_view")
 	public String singInView() {
@@ -59,8 +66,10 @@ public class UserController {
 		//
 		User user = userBO.getUserById(userId);
 		
+		List<Post> postList = postBO.getPostListByUserId(userId);
 		
 		model.addAttribute("user", user);
+		model.addAttribute("postList", postList);
 		model.addAttribute("viewName", "user/my_page_view");
 		
 		return "template/layout";

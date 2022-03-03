@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 import com.sns.comment.bo.CommentBO;
 import com.sns.comment.model.CommentView;
 import com.sns.like.bo.LikeBO;
-import com.sns.like.model.LikeView;
 import com.sns.post.bo.PostBO;
 import com.sns.post.model.Post;
 import com.sns.timeline.model.ContentView;
+import com.sns.timeline.model.UserContentView;
 import com.sns.user.bo.UserBO;
 import com.sns.user.model.User;
 
@@ -68,5 +68,45 @@ public class ContentBO {
 		
 		}
 	
+	public UserContentView generateUserContentViewByUserIdPostId(int userId, int postId) {
+		User user = userBO.getUserById(userId);
+		UserContentView userContent = new UserContentView();
+		
+		//user담음
+		userContent.setUser(user);
+		
+		//post담음
+		Post post = postBO.getPostById(postId);
+		userContent.setPost(post);
+		
+		return userContent;
 	}
-//}
+	
+	
+	public ContentView generateContentViewList(int userId, int postId) {
+		ContentView userContent = new ContentView();
+		
+		//post
+		Post post = postBO.getPostById(postId);
+		userContent.setPost(post);
+		
+		//user
+		User user = userBO.getUserById(userId);
+		userContent.setUser(user);
+			
+		//like
+		List<CommentView> commentList = commentBO.generateCommentViewListByPostId(postId);
+		userContent.setCommentList(commentList);
+		// 좋아요 수
+		int likeCount = likeBO.getLikesByPostId(postId);
+		userContent.setLikeCount(likeCount);
+		// 내가 좋아요를 눌렀나
+		boolean filledLike  = likeBO.getLikesByPostIdUserId(userId, postId);
+		userContent.setFilledLike(filledLike);
+			
+
+		return userContent;
+		
+		}
+	
+}

@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sns.timeline.bo.ContentBO;
 import com.sns.timeline.model.ContentView;
+import com.sns.timeline.model.UserContentView;
 
 
 @Controller
@@ -43,5 +45,20 @@ public class TimelineController {
 		
 		return "template/layout"; 
 	}
+	
+	@RequestMapping("/timeline_detailed_view")
+	public String timelineDetailedView(
+			@RequestParam("userId") int userId,
+			@RequestParam("postId") int postId,
+			Model model
+			) {
+		
+		ContentView userContent = contentBO.generateContentViewList(userId, postId);
+		
+		model.addAttribute("userContent", userContent);
+		model.addAttribute("viewName", "/timeline/timeline_detailed_view");
+		return "template/layout"; 
+	}
+	
 	
 }
