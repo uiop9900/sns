@@ -28,19 +28,19 @@
 		
 		
 		<%--좋아요 --%>
-		<div class="d-flex">
+		<div class="mt-2 ml-2 d-flex align-items-center">
 		<c:if test="${not empty userId}">
-			<div class="likeBtn" data-user-id="${userId}" data-post-id="${content.post.id}" >
+			<div class="likeBtn mr-3" data-user-id="${userId}" data-post-id="${content.post.id}" >
 				<c:choose>
 				<c:when test= "${content.filledLike == false}">
-				<a href="#"><img src="/images/heart.png" alt="heart-logo" class="heartLogo noLike"></a>
+					<a href="#"><img src="/images/heart.png" alt="heart-logo" class="noLike heartLogo" width="40" height="40"></a>
 				</c:when>
 				<c:when test="${content.filledLike == true}">
-					<a href="#"><img src="/images/black_heart.png" alt="heart-logo" class="heartLogo noLike" width="50" height="50"></a>
+					<a href="#"><img src="/images/black_heart.png" alt="heart-logo" class="heartLogo noLike" width="40" height="40"></a>
 				</c:when>
 				</c:choose>
 			</div>
-			<div class="font-weight-bold mt-3">${content.likeCount}</div>
+			<div class="font-weight-bold">${content.likeCount}</div>
 		</c:if>
 		</div>
 		

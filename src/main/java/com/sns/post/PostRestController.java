@@ -6,7 +6,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +22,8 @@ import com.sns.post.bo.PostBO;
 @RequestMapping("/post")
 public class PostRestController {
 
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	private PostBO postBO;
 	
@@ -43,6 +48,32 @@ public class PostRestController {
 		if (count != 1) {
 			result.put("result", "fail");
 		}
+		
+		return result;
+	}
+	
+	//글의 삭제이니까 post로 넘어간다.
+	@DeleteMapping("/delete")
+	public Map<String, Object> delete(
+			@RequestParam("postId") int postId,
+			HttpServletRequest request
+			) {
+		
+		Map<String, Object> result = new HashMap<>();
+		
+		HttpSession session = request.getSession();
+		//권한검사를 각 메소드에서 할것임, 그렇기에 여기서는 null을 허용해준다.
+		Integer userId = (Integer)session.getAttribute("userId");
+	
+		if (userId == null) { //사용자가 최대한 정제된 에러를 보게 한다.
+			result.put("result", "error");
+			result.put("errorMessage", "로그인을 다시 해주세요.");
+			logger.error("[delete post] 로그인세션이 없습니다. userId:{}, postId:{}" + userId, postId);
+			return result;
+		}
+	
+		//delete
+		result.put("result", "success");
 		
 		return result;
 	}

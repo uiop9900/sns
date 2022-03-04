@@ -40,4 +40,18 @@ public class PostBO {
 	public Post getPostById(int postId) {
 		return postDAO.selectPostById(postId);
 	}
+	
+	public void deletePostByPostIdUserId(int postId, int userId) {
+		// postId로 select를 먼저 한다.
+		
+		// 이미지가 있으면 이미지 삭제
+		
+		//글 삭제 byPostIdUserId
+		
+		// 댓글들 삭제 byPostId
+		
+		// 좋아요 삭제 byPostId
+		
+		
+	}
 }

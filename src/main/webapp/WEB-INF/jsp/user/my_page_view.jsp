@@ -117,7 +117,7 @@ $(document).ready(function(e){
 		let postId = $("#moreModal").data('post-id');
 		alert(postId);
 		
-		
+		//ajax로 삭제하기 -> 글의 삭제니까 post로 간다.
 	});
 });
 </script>
