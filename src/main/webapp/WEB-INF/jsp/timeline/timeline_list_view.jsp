@@ -28,19 +28,27 @@
 		
 		
 		<%--좋아요 --%>
+		<%--로그인 안하면 빈하트와 좋아요 개수 --%>
+		<c:if test="${empty userId }">
+			<div class="mt-2 ml-2 d-flex justify-content-start align-items-center">
+				<div class="mr-3"><img src="/images/heart.png" alt="heart-logo" class="noLike heartLogo" width="40" height="40"></div>
+				<div class="font-weight-bold">${content.likeCount}</div>
+			</div>
+		</c:if>
+		<%--로그인 하면 좋아요개수, 좋아요(빈,찬 하트) --%>
 		<div class="mt-2 ml-2 d-flex align-items-center">
 		<c:if test="${not empty userId}">
 			<div class="likeBtn mr-3" data-user-id="${userId}" data-post-id="${content.post.id}" >
-			<a href="#">
-				<c:choose>
-				<c:when test= "${content.filledLike == false}">
-					<img src="/images/heart.png" alt="heart-logo" class="noLike heartLogo" width="40" height="40">
-				</c:when>
-				<c:when test="${content.filledLike == true}">
-					<img src="/images/black_heart.png" alt="heart-logo" class="heartLogo noLike" width="40" height="40">
-				</c:when>
-				</c:choose>
-			</a>
+				<a href="#">
+					<c:choose>
+						<c:when test= "${content.filledLike == false}">
+							<img src="/images/heart.png" alt="heart-logo" class="noLike heartLogo" width="40" height="40">
+						</c:when>
+						<c:when test="${content.filledLike == true}">
+							<img src="/images/black_heart.png" alt="heart-logo" class="heartLogo noLike" width="40" height="40">
+						</c:when>
+					</c:choose>
+				</a>
 			</div>
 			<div class="font-weight-bold">${content.likeCount}</div>
 		</c:if>
@@ -98,8 +106,9 @@ $(document).ready(function(e){
 		});
 	});
 	
-	// like를 누르면 toggle된다.
+	// like를 좋아요가 된다.
 	$(".likeBtn").on('click',function(e){
+		e.preventDefault();
 		
 		// 버튼을 누르면 세션값을 가지고 온다.
 		let userId = $(this).data('user-id');

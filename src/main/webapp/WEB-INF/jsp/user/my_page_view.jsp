@@ -6,14 +6,10 @@
 		
 		<%--프로필 사진 --%>
 		<div id="mypageProfileImage">
-			<c:choose>
-				<c:when test="${not empty profileImageUrl}">
-					<img src="${user.profileImageUrl}" alt="profile-image">
-				</c:when>
-				<c:otherwise>
-					<img src="/images/default_profile_image.gif" alt="profile-image">
-				</c:otherwise>
-			</c:choose>
+			<img src="${user.profileImageUrl}" alt="profile-image">
+			<c:if test="${empty user.profileImageUrl}">
+				<img src="/images/default_profile_image.gif" alt="profile-image">
+			</c:if>
 		</div>
 	
 	
@@ -21,8 +17,10 @@
 		
 			<%--아이디와 프로필편집 버튼(사진, 소개, 이름 변경/추가가능) --%>
 			<div class="d-flex">
-				<div class="display-4 userId w-100">${loginId}</div>
-				<a href="/user/profile_modify_view" id="modifyProfileBtn" class="btn btn-primary">프로필 편집</a>
+				<div class="display-4 userId w-100">${user.loginId}</div>
+				<c:if test="${userId eq user.id}">
+					<a href="/user/profile_modify_view" id="modifyProfileBtn" class="btn btn-primary">프로필 편집</a>
+				</c:if>
 			</div>
 			
 			<%--게시물, 팔로워, 팔로우 --%>
@@ -39,7 +37,7 @@
 			</div>
 			<%--이름과 자기소개 --%>
 			<div class="ml-4 mt-3">
-				<div class="font-weight-bold">${userName}</div>
+				<div class="font-weight-bold">${user.name}</div>
 				<div>${user.introduce}</div>
 			</div>
 			
@@ -47,18 +45,22 @@
 	</div>
 		
 	<%--게시글 추가 버튼 --%>
-	<div class="mt-4 d-flex justify-content-between">
-		<a href="/post/post_create_view" class="btn btn-primary btn-block w-75">게시글 업로드</a>
-		<c:if test="${user.loginId != loginId}">
-		<button id="followBtn" class="btn btn-secondary mr-4 font-weight-bold">follow</button>
-		</c:if>
-	 </div>
+		<div class="mt-4 d-flex justify-content-between">
+			<c:if test="${userId eq user.id}">
+				<div><a href="/post/post_create_view" class="btn btn-primary btn-block w-75">게시글 업로드</a></div>
+			</c:if>
+			<c:if test="${user.loginId != loginId and not empty userId}">
+				<div class="d-flex justify-content-end">
+						<button id="followBtn" class="btn btn-secondary mr-4 font-weight-bold">follow</button>
+				</div>
+			</c:if>
+		 </div>
 	 
 	 <%--user가 쓴 게시글 --%>
 	 <div id="myPageContent" class="mt-5">
 	 	<div class="d-flex flex-wrap align-content-center ">
 	 	<c:forEach var="post" items="${postList}">
-	 		<div class="mt-1 mr-1">
+	 		<div class="userPost mt-1 mr-1" data-user-id="${userId}">
 	 			<a href="/timeline/timeline_detailed_view?userId=${userId}&postId=${post.id}">
 	 				<img src="${post.imagePath}" alt="post-content-picture" class="myPageContent">
 	 			</a>
@@ -68,56 +70,22 @@
 	 	</div>
 	 </div>
 	 
-	 <!-- 글쓴 사용자와 로그인 사용자가 일치할때만 삭제 가능 -->
-	 <c:if test="${userName eq user.name}">
-	 	<a href="#" class="more-btn" data-toggle="modal" data-target="#moreModal" data-post-id="${post.id}" >
-	 		삭제
-	 	</a>
-	 </c:if>
-
-
-<%--Modal --%>
-<div class="modal fade" id="moreModal">
-  	<div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-    	<div class="modal-content">
-     		<%--modal 창 안에 내용 넣기 --%>
-     		<div>
-				<div class="my-3 text-center">
-					<a href="#" class="del-post d-block">삭제하기</a>
-				</div>
-				<div class="border-top py-3 text-center">
-				 	<a href="#" class="cancel d-block " data-dismiss="modal">취소</a>
-				</div>
-     		</div> 
-    	</div>
-  	</div>
-</div>
-
 
 
 
 <script>
 $(document).ready(function(e){
-	
-	// 카드에서 더보기(...)클릭시 modal에 삭제될 글 번호(postId)를 넣어준다. : modal은 한개라 
-	$(".more-btn").on('click', function(e){
+	//로그인 안하고 개인페이지-게시물 클릭하면 로그인 페이지로 보낸다.
+	$(".userPost").on('click', function(e){
 		e.preventDefault();
-		let postId = #(this).data('post-id');
 		
+		let userId = $(this).data('user-id');
 		
-		//set
-		$("#moreModal").data('post-id', postId); // modal 태그안에 data-post-id='postId' 를 넣은것과 같다.
-	});
-	
-	
-	//modal안의 삭제하기 버튼 클릭
-	$("#moreModal .del-post").on('click', function(e) {
-		e.preventDefalut();
+		if (userId == "") {
+			alert("로그인 후에 이용가능합니다.");
+			location.href="/user/sign_in_view";
+		}
 		
-		let postId = $("#moreModal").data('post-id');
-		alert(postId);
-		
-		//ajax로 삭제하기 -> 글의 삭제니까 post로 간다.
 	});
 });
 </script>
