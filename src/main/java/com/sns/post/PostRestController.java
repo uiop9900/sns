@@ -5,12 +5,14 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.swing.text.AbstractDocument.Content;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +29,14 @@ public class PostRestController {
 	@Autowired
 	private PostBO postBO;
 	
+	/**
+	 * create post
+	 * @param userId
+	 * @param content
+	 * @param file
+	 * @param request
+	 * @return
+	 */
 	@PostMapping("/create")
 	public Map<String, Object> postCreate(
 			@RequestParam("userId") int userId,
@@ -52,7 +62,40 @@ public class PostRestController {
 		return result;
 	}
 	
+	
+	
+	@PutMapping("/update")
+	public Map<String, Object> postUpdate(
+			@RequestParam("content") String Content,
+			@RequestParam("postId") int postId,
+			@RequestParam("loginId") String loginId,
+			@RequestParam(value="file", required=false) MultipartFile file,
+			HttpServletRequest request
+			){
+		
+		//db update
+		postBO.generateUpdatePostByPostId(postId, loginId, Content, file);
+		
+		
+		HttpSession session = request.getSession();
+		int userId = (int)session.getAttribute("userId");
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("result", "success");
+		result.put("postId", postId);
+		result.put("userId", userId);
+		
+		return result;
+	}
+	
+	
 	//글의 삭제이니까 post로 넘어간다.
+	/**
+	 * delete post
+	 * @param postId
+	 * @param request
+	 * @return
+	 */
 	@DeleteMapping("/delete")
 	public Map<String, Object> delete(
 			@RequestParam("postId") int postId,

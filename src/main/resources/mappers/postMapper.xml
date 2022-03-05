@@ -66,6 +66,18 @@
 			 `id` = #{postId} 
 	</select>
 	
+	<update id="updatePostByPostId" parameterType="map">
+		UPDATE	
+			`post`
+		SET
+			`imagePath` = #{imagePath}
+			, `content` = #{content}
+			, `updatedAt` = NOW()
+		WHERE
+			`id` = #{postId};
+	</update>
+	
+	
 	<delete id="deletePostByPostIdUserId" parameterType="map">
 		DELETE
 		FROM `post`

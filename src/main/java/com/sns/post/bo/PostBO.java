@@ -58,6 +58,33 @@ public class PostBO {
 		return postDAO.deletePostByPostIdUserId(postId, userId);
 	}
 	
+	
+	public int generateUpdatePostByPostId(int postId, String loginId, String content, MultipartFile file) {
+		//update할 post 가져와서 확인
+		Post post = getPostById(postId);
+		String imagePath = null;
+		
+		//파일 변경 유무에 따른 imagePath
+		if (file != null) {//사진 삭제 후 다시 저장
+			try {
+				fileManager.deleteFile(post.getImagePath());
+			} catch (IOException e) {
+				logger.error("[update post] 삭제할 사진이 존재하지 않습니다. postId: {}", post.getId());
+			}
+			imagePath = fileManager.savefile(loginId, file);
+		}
+
+		if (file == null) { //이전 사진 path 그대로
+			imagePath = post.getImagePath();
+		}
+		
+		return postDAO.updatePostByPostId(postId, content, imagePath);
+		
+	}
+	
+	
+	
+	
 	public void generateDeletePostByPostIdUserId(int postId) {
 
 		// postId로 select를 먼저 한다.

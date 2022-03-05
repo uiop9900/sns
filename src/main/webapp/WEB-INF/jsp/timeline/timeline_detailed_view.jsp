@@ -176,6 +176,15 @@ $(document).ready(function(e){
 		$("#moreModal").data('post-id', postId); // modal 태그안에 data-post-id='postId' 를 넣은것과 같다.
 	});
 	
+	//modal안의 수정하기 버튼 클릭
+	$("#moreModal .modify-post").on('click', function(e){
+		e.preventDefault();
+		
+		let postId = $("#moreModal").data('post-id');
+		location.href="/post/post_update_view?postId=" + postId;
+	
+	});
+	
 	
 	//modal안의 삭제하기 버튼 클릭
 	$("#moreModal .del-post").on('click', function(e) {
