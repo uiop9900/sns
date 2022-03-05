@@ -2,40 +2,34 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<c:if test="${empty userId}" >
-	<h1>로그인 후 이용가능합니다.</h1>
-	<a href="/user/sign_in_view" class="btn btn-primary"></a>
-</c:if>
-
 	<div class="timline-card mt-5">
 		<%--프로필 사진과 아이디 --%>
 		<div class="d-flex align-items-center timeline-otherUser">
 			<div class="timeline-profile">
-			<a href="/user/my_page_view?userId=${userContent.user.id}" class="userPage">
-				<c:choose>
-					<c:when test="${empty userContent.user.profileImageUrl}">
-						<img src="/images/default_profile_image.gif" alt="profileImage" >
-					</c:when>
-					<c:otherwise>				
-						<img src="${userContent.user.profileImageUrl}" alt="profileImage">
-					</c:otherwise>
-				</c:choose>
-			</a>
+				<a href="/user/my_page_view?userId=${userContent.user.id}" class="userPage">
+					<c:choose>
+						<c:when test="${empty userContent.user.profileImageUrl}">
+							<img src="/images/default_profile_image.gif" alt="profileImage" >
+						</c:when>
+						<c:otherwise>				
+							<img src="${userContent.user.profileImageUrl}" alt="profileImage">
+						</c:otherwise>
+					</c:choose>
+				</a>
 			</div>
 			<div class="ml-3 mt-2 timeline-userId">
 				${userContent.user.loginId}
 			</div>	
-			<!-- 글쓴 사용자와 로그인 사용자가 일치할때만 삭제 가능 -->
+			<!-- 글쓴 사용자와 로그인 사용자가 일치할때만 삭제 가능- modal -->
 			<c:if test="${userId eq userContent.user.id}">
-			<div class="d-flex justify-content-end">
-				<div class="mt-1 mr-1">
-					<a href="#" class="more-btn" data-toggle="modal" data-target="#moreModal" data-post-id="${post.id}" >
-						<img src="/images/moreInfo.png" alt="more-info" width="30">
-					</a>
+				<div class="w-75 d-flex justify-content-end align-items-center">
+					<div class="mt-1">
+						<a href="#" class="more-btn" data-toggle="modal" data-target="#moreModal" data-post-id="${userContent.post.id}" data-user-id="${userContent.user.id}" >
+							<img src="/images/moreInfo.png" alt="more-info" width="30">
+						</a>
+					</div>
 				</div>
-			</div>
 			</c:if>
-			
 		</div>
 		
 		<%--게시사진 --%>
@@ -49,14 +43,20 @@
 			<div class="likeBtn mr-3" data-user-id="${userId}" data-post-id="${userContent.post.id}" >
 				<c:choose>
 					<c:when test= "${userContent.filledLike == false}">
-				<a href="#"><img src="/images/heart.png" alt="heart-logo" class="heartLogo noLike" width="40" height="40"></a>
-				</c:when>
-				<c:when test="${userContent.filledLike == true}">
-					<a href="#"><img src="/images/black_heart.png" alt="heart-logo" class="heartLogo noLike" width="40" height="40"></a>
-				</c:when>
+						<a href="#">
+							<img src="/images/heart.png" alt="heart-logo" class="heartLogo noLike" width="40" height="40">
+						</a>
+					</c:when>
+					<c:when test="${userContent.filledLike == true}">
+						<a href="#">
+							<img src="/images/black_heart.png" alt="heart-logo" class="heartLogo noLike" width="40" height="40">
+						</a>
+					</c:when>
 				</c:choose>
 			</div>
-			<div class="font-weight-bold">${userContent.likeCount}</div>
+			<div class="font-weight-bold">
+				${userContent.likeCount}
+			</div>
 		</div>
 		
 		<%--아이디와 코멘트 --%>
@@ -79,9 +79,6 @@
 	</div>
 
 		
-	
-	 	
-
 
 
 <%--Modal --%>
@@ -90,11 +87,14 @@
     	<div class="modal-content">
      		<%--modal 창 안에 내용 넣기 --%>
      		<div>
-				<div class="my-3 text-center">
-					<a href="#" class="del-post d-block">삭제하기</a>
+     			<div class="my-3 text-center">
+					<a href="#" class="modify-post d-block text-dark d-none">수정하기</a>
 				</div>
-				<div class="border-top py-3 text-center">
-				 	<a href="#" class="cancel d-block " data-dismiss="modal">취소</a>
+				<div class="my-3 text-center">
+					<a href="#" class="del-post d-block text-danger">삭제하기</a>
+				</div>
+				<div class="border-top py-3 mr-2 d-flex justify-content-end">
+				 	<a href="#" class="cancel d-block btn btn-light col-3" data-dismiss="modal">취소</a>
 				</div>
      		</div> 
     	</div>
@@ -168,22 +168,39 @@ $(document).ready(function(e){
 	// 카드에서 더보기(...)클릭시 modal에 삭제될 글 번호(postId)를 넣어준다. : modal은 한개라 
 	$(".more-btn").on('click', function(e){
 		e.preventDefault();
-		let postId = #(this).data('post-id');
-		
+		let postId = $(this).data('post-id');
+		let userId = $(this).data('user-id');
 		
 		//set
+		$("#moreModal").data('user-id', userId); 
 		$("#moreModal").data('post-id', postId); // modal 태그안에 data-post-id='postId' 를 넣은것과 같다.
 	});
 	
 	
 	//modal안의 삭제하기 버튼 클릭
 	$("#moreModal .del-post").on('click', function(e) {
-		e.preventDefalut();
+		e.preventDefault();
 		
 		let postId = $("#moreModal").data('post-id');
-		alert(postId);
-		
-		//ajax로 삭제하기 -> 글의 삭제니까 post로 간다.
+		let userId = $("#moreModal").data('user-id');
+		//ajax로 삭제하기 -> 글의 삭제니까 delete로 간다.
+		$.ajax({
+			type:"DELETE"
+			, url: "/post/delete"
+			, data: {'postId':postId}
+			, success: function(data) {
+				if (data.result == 'success') {
+					alert("삭제되었습니다.");
+					location.href="/user/my_page_view?userId=" + userId;
+				} else if (data.result == 'error') {
+					alert(data.errorMessage);
+					location.href="/user/my_page_view?userId=" + userId;
+				}
+			}
+			, error: function(e){
+				alert("error");
+			}
+		});
 	});
 
 });

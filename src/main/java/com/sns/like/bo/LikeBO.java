@@ -46,6 +46,10 @@ public class LikeBO {
 			likeDAO.deleteLikeByPostIdUserId(userId, postId);
 	}
 	
+	//like를 지운다
+	public void removeLikeByPostId(int postId) {
+		likeDAO.deleteLikeByPostId(postId);
+	}
 	
 	// like를 일전에 눌렀으면 삭제한다.
 	public String generateLikeByUserIdPostId(int userId, int postId) {

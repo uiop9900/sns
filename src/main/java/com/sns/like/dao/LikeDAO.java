@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.sns.like.model.Like;
-import com.sns.like.model.LikeView;
 
 @Repository
 public interface LikeDAO {
@@ -26,4 +25,6 @@ public interface LikeDAO {
 	public void deleteLikeByPostIdUserId(
 			@Param("userId") int userId, 
 			@Param("postId") int postId);
+	
+	public void deleteLikeByPostId(int postId); 
 }

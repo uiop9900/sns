@@ -73,8 +73,11 @@ public class PostRestController {
 		}
 	
 		//delete
+		postBO.generateDeletePostByPostIdUserId(postId);
 		result.put("result", "success");
 		
 		return result;
 	}
+	
+
 }

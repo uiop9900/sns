@@ -45,39 +45,36 @@
 	</div>
 		
 	<%--게시글 추가 버튼 --%>
-		<div class="mt-4 d-flex justify-content-between">
-			<c:if test="${userId eq user.id}">
-				<div><a href="/post/post_create_view" class="btn btn-primary btn-block w-75">게시글 업로드</a></div>
-			</c:if>
-			<c:if test="${user.loginId != loginId and not empty userId}">
-				<div class="d-flex justify-content-end">
-						<button id="followBtn" class="btn btn-secondary mr-4 font-weight-bold">follow</button>
-				</div>
-			</c:if>
-		 </div>
+	<div class="mt-4 d-flex justify-content-between">
+		<c:if test="${userId eq user.id}">
+			<div class="w-100">
+				<a href="/post/post_create_view" class="btn btn-primary btn-block col-8">게시글 업로드</a>
+			</div>
+		</c:if>
+		<c:if test="${user.loginId != loginId and not empty userId}">
+			<div class="w-100 d-flex justify-content-end">
+				<div class="ml-3"><button id="followBtn" class="btn btn-primary mr-4 col-12 font-weight-bold">follow</button></div>
+			</div>
+		</c:if>
+	 </div>
 	 
 	 <%--user가 쓴 게시글 --%>
 	 <div id="myPageContent" class="mt-5">
 	 	<div class="d-flex flex-wrap align-content-center ">
-	 	<c:forEach var="post" items="${postList}">
-	 		<div class="userPost mt-1 mr-1" data-user-id="${userId}">
-	 			<a href="/timeline/timeline_detailed_view?userId=${userId}&postId=${post.id}">
-	 				<img src="${post.imagePath}" alt="post-content-picture" class="myPageContent">
-	 			</a>
-	 		</div>
-	 	</c:forEach>
-
+		 	<c:forEach var="post" items="${postList}">
+		 		<div class="userPost mt-1 mr-1" data-user-id="${user.id}">
+		 			<a href="/timeline/timeline_detailed_view?userId=${user.id}&postId=${post.id}">
+		 				<img src="${post.imagePath}" alt="post-content-picture" class="myPageContent">
+		 			</a>
+		 		</div>
+		 	</c:forEach>
 	 	</div>
 	 </div>
 	 
-
-
-
 <script>
 $(document).ready(function(e){
 	//로그인 안하고 개인페이지-게시물 클릭하면 로그인 페이지로 보낸다.
 	$(".userPost").on('click', function(e){
-		e.preventDefault();
 		
 		let userId = $(this).data('user-id');
 		
@@ -85,7 +82,8 @@ $(document).ready(function(e){
 			alert("로그인 후에 이용가능합니다.");
 			location.href="/user/sign_in_view";
 		}
-		
 	});
+	
 });
+
 </script>
