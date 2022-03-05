@@ -31,14 +31,16 @@
 		<div class="mt-2 ml-2 d-flex align-items-center">
 		<c:if test="${not empty userId}">
 			<div class="likeBtn mr-3" data-user-id="${userId}" data-post-id="${content.post.id}" >
+			<a href="#">
 				<c:choose>
 				<c:when test= "${content.filledLike == false}">
-					<a href="#"><img src="/images/heart.png" alt="heart-logo" class="noLike heartLogo" width="40" height="40"></a>
+					<img src="/images/heart.png" alt="heart-logo" class="noLike heartLogo" width="40" height="40">
 				</c:when>
 				<c:when test="${content.filledLike == true}">
-					<a href="#"><img src="/images/black_heart.png" alt="heart-logo" class="heartLogo noLike" width="40" height="40"></a>
+					<img src="/images/black_heart.png" alt="heart-logo" class="heartLogo noLike" width="40" height="40">
 				</c:when>
 				</c:choose>
+			</a>
 			</div>
 			<div class="font-weight-bold">${content.likeCount}</div>
 		</c:if>
@@ -114,11 +116,12 @@ $(document).ready(function(e){
 			, url: "/like/" + postId
 			, data: {"userId":userId, "postId":postId}
 			, success: function(data) {
-				if (data.result == 'success'){
+				if (data.result == 'insert'){
 					alert("'좋아요' 완료");
 					location.reload();
-				} else if(data.result == 'fail') {
-					alert("다시 '좋아요'를 눌러주세요! ");
+				} else if(data.result == 'delete') {
+					alert("좋아요 '취소' 완료");
+					location.reload();
 				}
 			}
 			, error: function(e) {
@@ -127,7 +130,6 @@ $(document).ready(function(e){
 		});
 		
 	});
-
 
 	 
 });

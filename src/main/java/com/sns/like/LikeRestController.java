@@ -24,18 +24,16 @@ public class LikeRestController {
 			@RequestParam("userId") int userId
 			) {// 와일드 카드 사용가능
 		
+		Map<String, Object> result = new HashMap<>();
+		result.put("result", "fail");
+
 		// bo를 통해 담는다.
-		int count = likeBO.addLike(postId, userId);
+		
+		String process = likeBO.generateLikeByUserIdPostId(userId, postId);
+		
+		result.put("result", process);
 		
 		//bo를 통해 총합을 꺼내온다. -> contenview에서 할일
-		
-		
-		Map<String, Object> result = new HashMap<>();
-		result.put("result", "success");
-		
-		if (count != 1) {
-			result.put("result", "fail");
-		}
 		
 		return result;
 	}

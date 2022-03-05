@@ -32,22 +32,41 @@ public class LikeBO {
 	
 	//user가 있나 찾는다.
 	public boolean getLikesByPostIdUserId(int userId, int PostId) {
-		return likeDAO.getLikesByPostIdUserId(userId, PostId);
+		int likeCount = likeDAO.getLikesByPostIdUserId(userId, PostId); 
+		
+		if (likeCount > 0) {
+			return true;
+		}
+		// likeCount == 0 
+		return false;
 	}
+
+	// like를 지운다.
+	public void removeLikeByPostIdUserId(int userId, int postId) {
+			likeDAO.deleteLikeByPostIdUserId(userId, postId);
+	}
+	
+	
+	// like를 일전에 눌렀으면 삭제한다.
+	public String generateLikeByUserIdPostId(int userId, int postId) {
+		boolean likeCount = getLikesByPostIdUserId(userId, postId); //true -> 있다.
+		
+		if (likeCount == true) {
+			likeDAO.deleteLikeByPostIdUserId(userId, postId);
+			return "delete";
+		} 
+		//likeCount == false(0)
+		likeDAO.insertLike(postId, userId);
+		return "insert";
+	}
+	
 	
 	//likeList가져온다
 	public List<Like> getLikeListByPosId(int postId) {
 		return likeDAO.selectLikeListByPostId(postId);
 	}
 	
-	public void removeLikeByPostIdUserId(int userId, int postId) {
-		boolean likeCount = getLikesByPostIdUserId(userId, postId);
-		
-		if (likeCount == true) {
-			likeDAO.deleteLikeByPostIdUserId(userId, postId);
-		}
-		
-	}
+
 	
 	
 	// likeList에 like와 user정보

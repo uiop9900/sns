@@ -35,10 +35,10 @@
 		<div class="mt-2 ml-2 d-flex align-items-center">
 			<div class="likeBtn mr-3" data-user-id="${userId}" data-post-id="${userContent.post.id}" >
 				<c:choose>
-					<c:when test= "${userContent.filledLike == false}">
+					<c:when test= "${userContent.filledLike == true}">
 				<a href="#"><img src="/images/heart.png" alt="heart-logo" class="heartLogo noLike" width="40" height="40"></a>
 				</c:when>
-				<c:when test="${userContent.filledLike == true}">
+				<c:when test="${userContent.filledLike == false}">
 					<a href="#"><img src="/images/black_heart.png" alt="heart-logo" class="heartLogo noLike" width="40" height="40"></a>
 				</c:when>
 				</c:choose>

@@ -27,7 +27,7 @@
 		
 	</select>
 	
-	<select id="getLikesByPostIdUserId" parameterType="map" resultType="boolean">
+	<select id="getLikesByPostIdUserId" parameterType="map" resultType="int">
 		SELECT COUNT(1)
 		FROM `like`
 		WHERE 

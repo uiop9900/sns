@@ -57,9 +57,11 @@ public class ContentBO {
 			
 			// 로그인된 사용자의 좋아요 여부 세팅 - 로그인의 여부에 따라
 			// 1: true(좋아요), 0: false(좋아요 안누름)
-			
-			boolean filledLike = likeBO.getLikesByPostIdUserId(userId, post.getId());
-			content.setFilledLike(filledLike);
+			if(userId != null) {// 로그인된 상황
+				boolean filledLike = likeBO.getLikesByPostIdUserId(userId, post.getId());
+				
+				content.setFilledLike(filledLike);
+			}
 			
 			contentViewList.add(content);
 		}
@@ -68,21 +70,8 @@ public class ContentBO {
 		
 		}
 	
-	public UserContentView generateUserContentViewByUserIdPostId(int userId, int postId) {
-		User user = userBO.getUserById(userId);
-		UserContentView userContent = new UserContentView();
-		
-		//user담음
-		userContent.setUser(user);
-		
-		//post담음
-		Post post = postBO.getPostById(postId);
-		userContent.setPost(post);
-		
-		return userContent;
-	}
 	
-	
+	//timeline_detailed_view
 	public ContentView generateContentViewList(int userId, int postId) {
 		ContentView userContent = new ContentView();
 		

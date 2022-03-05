@@ -17,7 +17,7 @@ public interface LikeDAO {
 	
 	public int selectLikesByPostId(int postId);
 	
-	public boolean getLikesByPostIdUserId(
+	public int getLikesByPostIdUserId(
 			@Param("userId") int userId, 
 			@Param("postId") int PostId);
 
