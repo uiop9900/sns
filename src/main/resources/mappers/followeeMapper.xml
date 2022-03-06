@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.sns.followee.dao.FolloweeDAO">
+	
+	<select id="selectFollowee" parameterType="map" resultType="com.sns.followee.model.Followee">
+		SELECT
+			`userId` 
+			,`followerId`
+			,`createdAt`
+		FROM 
+			`followee`
+		WHERE 
+			`userId` = #{userId}
+			AND `followerId` = #{followerId}
+	</select>
+	
+	<insert id="insertFollowee" parameterType="map">
+		INSERT INTO `followee`
+		(
+			`userId` 
+			,`followerId`
+			,`createdAt`
+		)
+		VALUES
+		(
+			#{userId}
+			, #{followerId}
+			, NOW()
+		)
+	</insert>
+	
+	<delete id="deleteFollowee" parameterType="map">
+		DELETE FROM `followee`
+		WHERE 
+			`userId` = #{userId}
+			AND `followerId` = #{followerId}
+	</delete>
+
+</mapper>

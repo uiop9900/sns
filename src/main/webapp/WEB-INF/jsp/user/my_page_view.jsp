@@ -59,7 +59,7 @@
 		<c:if test="${user.loginId != loginId and not empty userId}">
 			<div class="w-100 d-flex justify-content-end">
 				<div class="mr-3">
-					<button id="followBtn" class="col-12 btn btn-primary mr-4 font-weight-bold">follow</button>
+					<button id="followBtn" class="col-12 btn btn-primary mr-4 font-weight-bold" data-user-id="${userId}" data-follower-id="${user.id}">follow</button>
 				</div>
 			</div>
 		</c:if>
@@ -91,6 +91,35 @@ $(document).ready(function(e){
 		}
 	});
 	
+	$("#followBtn").on('click', function(e){
+		let userId = $("#followBtn").data('user-id');
+		let followerId = $("#followBtn").data('follower-id');
+		
+		//alert("팔로위(버튼누른사람: 로그인된 사람): " + userId);
+		//alert("팔로우(버튼 눌린사람: 유저페이지의 사람): " + followerId);
+		
+		$.ajax({
+			type: "GET"
+			, url: "/followee/followee"
+			, data: {"userId": userId, "followerId": followerId}
+			, success: function(data) {
+				if (data.successMessage == "insert"){
+					alert("팔로우가 되었습니다.");
+					$("#followBtn").removeClass("btn-primary");
+					$("#followBtn").addClass("btn-secondary");
+				} else if (data.successMessage == "delete") {
+					alert("팔로우가 '취소'되었습니다.");
+					$("#followBtn").removeClass("btn-secondary");
+					$("#followBtn").addClass("btn-primary");
+				} else if (data.result == "error") {
+					alert(data.errorMessage);
+				}
+			}
+			, error: function(e) {
+				alert("error");
+			}
+		});
+	});
 	
 });
 
