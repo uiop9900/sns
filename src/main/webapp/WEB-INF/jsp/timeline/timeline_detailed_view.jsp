@@ -39,6 +39,16 @@
 		
 		
 		<%--좋아요 --%>
+		<%--로그인 안하면 빈하트와 좋아요 개수 --%>
+		<c:if test="${empty userId}">
+			<div class="mt-2 ml-2 d-flex justify-content-start align-items-center">
+				<div class="mr-3"><img src="/images/heart.png" alt="heart-logo" class="noLike heartLogo" width="40" height="40"></div>
+				<div class="font-weight-bold">${userContent.likeCount}</div>
+			</div>
+		</c:if>
+		
+		<%--로그인 하면 좋아요개수, 좋아요(빈,찬 하트) --%>
+		<c:if test="${not empty userId}">
 		<div class="mt-2 ml-2 d-flex align-items-center">
 			<div class="likeBtn mr-3" data-user-id="${userId}" data-post-id="${userContent.post.id}" >
 				<c:choose>
@@ -58,6 +68,7 @@
 				${userContent.likeCount}
 			</div>
 		</div>
+		</c:if>
 		
 		<%--아이디와 코멘트 --%>
 		<div class="d-flex">
@@ -66,16 +77,18 @@
 		</div>
 		
 		<%--댓글보기, 쓰기 --%>
-			<div>
-				<c:forEach var="commentView" items="${userContent.commentList}">
-					<span class="ml-2 font-weight-bold">${commentView.user.loginId} :</span>
-					<span class="ml-3">${commentView.comment.content}</span><br>
-				</c:forEach>  
-			</div>
+		<div>
+			<c:forEach var="commentView" items="${userContent.commentList}">
+				<span class="ml-2 font-weight-bold">${commentView.user.loginId} :</span>
+				<span class="ml-3">${commentView.comment.content}</span><br>
+			</c:forEach>  
+		</div>
+		<c:if test="${not empty userId}">
 			<div class="d-flex justify-content-between">
 				<input type="text" id ="commentText${content.post.id}" class="form-control border-0 mr-2 col-7 ml-2" placeholder="댓글">
 				<button type="button" class="commentBtn btn btn-primary mr-2" data-post-id="${content.post.id}">게시</button>
 			</div>
+		</c:if>
 	</div>
 
 		

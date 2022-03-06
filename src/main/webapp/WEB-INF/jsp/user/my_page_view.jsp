@@ -46,14 +46,21 @@
 		
 	<%--게시글 추가 버튼 --%>
 	<div class="mt-4 d-flex justify-content-between">
+		<%--내 페이지: 게시글, 로그아웃 --%>
 		<c:if test="${userId eq user.id}">
 			<div class="w-100">
-				<a href="/post/post_create_view" class="btn btn-primary btn-block col-8">게시글 업로드</a>
+				<a href="/post/post_create_view" class="btn btn-primary btn-block col-10">게시글 업로드</a>
+			</div>
+			<div class="ml-3">
+				<a href="/user/sign_out" id="signOutBtn" class="btn btn-secondary mr-4 font-weight-bold">로그아웃</a>
 			</div>
 		</c:if>
+		<%--follow --%>
 		<c:if test="${user.loginId != loginId and not empty userId}">
 			<div class="w-100 d-flex justify-content-end">
-				<div class="ml-3"><button id="followBtn" class="btn btn-primary mr-4 col-12 font-weight-bold">follow</button></div>
+				<div class="mr-3">
+					<button id="followBtn" class="col-12 btn btn-primary mr-4 font-weight-bold">follow</button>
+				</div>
 			</div>
 		</c:if>
 	 </div>
@@ -83,6 +90,7 @@ $(document).ready(function(e){
 			location.href="/user/sign_in_view";
 		}
 	});
+	
 	
 });
 
