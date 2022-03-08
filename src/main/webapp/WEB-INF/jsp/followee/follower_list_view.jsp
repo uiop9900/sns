@@ -13,7 +13,7 @@
 				<a href="/user/my_page_view?userId=${follower.user.id}">
 					<c:choose>
 					<c:when test="${empty follower.user.profileImageUrl}">
-						<img src="/images/default_profile_image.gif" alt="profileImage" >
+						<img src="/static/images/default_profile_image.gif" alt="profileImage" >
 					</c:when>
 					<c:otherwise>				
 						<img src="${follower.user.profileImageUrl}" alt="profileImage">

@@ -8,7 +8,7 @@
 		<div id="mypageProfileImage">
 			<img src="${user.profileImageUrl}" alt="profile-image">
 			<c:if test="${empty user.profileImageUrl}">
-				<img src="/images/default_profile_image.gif" alt="profile-image">
+				<img src="/static/images/default_profile_image.gif" alt="profile-image">
 			</c:if>
 		</div>
 	

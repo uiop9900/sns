@@ -9,7 +9,7 @@
 				<a href="/user/my_page_view?userId=${userContent.user.id}" class="userPage">
 					<c:choose>
 						<c:when test="${empty userContent.user.profileImageUrl}">
-							<img src="/images/default_profile_image.gif" alt="profileImage" >
+							<img src="/static/images/default_profile_image.gif" alt="profileImage" >
 						</c:when>
 						<c:otherwise>				
 							<img src="${userContent.user.profileImageUrl}" alt="profileImage">
@@ -25,7 +25,7 @@
 				<div class="w-75 d-flex justify-content-end align-items-center">
 					<div class="mt-1">
 						<a href="#" class="more-btn" data-toggle="modal" data-target="#moreModal" data-post-id="${userContent.post.id}" data-user-id="${userContent.user.id}" >
-							<img src="/images/moreInfo.png" alt="more-info" width="30">
+							<img src="/static/images/moreInfo.png" alt="more-info" width="30">
 						</a>
 					</div>
 				</div>
@@ -42,7 +42,7 @@
 		<%--로그인 안하면 빈하트와 좋아요 개수 --%>
 		<c:if test="${empty userId}">
 			<div class="mt-2 ml-2 d-flex justify-content-start align-items-center">
-				<div class="mr-3"><img src="/images/heart.png" alt="heart-logo" class="noLike heartLogo" width="40" height="40"></div>
+				<div class="mr-3"><img src="/static/images/heart.png" alt="heart-logo" class="noLike heartLogo" width="40" height="40"></div>
 				<div class="font-weight-bold">${userContent.likeCount}</div>
 			</div>
 		</c:if>
@@ -54,12 +54,12 @@
 				<c:choose>
 					<c:when test= "${userContent.filledLike == false}">
 						<a href="#">
-							<img src="/images/heart.png" alt="heart-logo" class="heartLogo noLike" width="40" height="40">
+							<img src="/static/images/heart.png" alt="heart-logo" class="heartLogo noLike" width="40" height="40">
 						</a>
 					</c:when>
 					<c:when test="${userContent.filledLike == true}">
 						<a href="#">
-							<img src="/images/black_heart.png" alt="heart-logo" class="heartLogo noLike" width="40" height="40">
+							<img src="/static/images/black_heart.png" alt="heart-logo" class="heartLogo noLike" width="40" height="40">
 						</a>
 					</c:when>
 				</c:choose>

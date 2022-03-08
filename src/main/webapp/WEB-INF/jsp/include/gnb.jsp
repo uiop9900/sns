@@ -4,7 +4,7 @@
 
 <div class="d-flex align-items-center">		
 	<div id="headerLogo">
-		<a href="/timeline/timeline_list_view"><img src="/images/logo.png" alt="instagram logo" ></a>
+		<a href="/timeline/timeline_list_view"><img src="/static/images/logo.png" alt="instagram logo" ></a>
 	</div>
 	
 	<%--로그인 안하면 --%>
@@ -18,7 +18,7 @@
 	<c:if test="${not empty loginId }">
 	
 	<div class="heartLogo">
-		<img src="/images/heart.png" alt="heartLogo" >
+		<img src="/static/images/heart.png" alt="heartLogo" >
 	</div>
 	
 	<div class="profile">

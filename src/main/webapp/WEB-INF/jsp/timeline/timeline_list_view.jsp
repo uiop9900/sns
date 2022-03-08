@@ -10,7 +10,7 @@
 			<a href="/user/my_page_view?userId=${content.user.id}" class="userPage">
 			<c:choose>
 				<c:when test="${empty content.user.profileImageUrl}">
-					<img src="/images/default_profile_image.gif" alt="profileImage" >
+					<img src="/static/images/default_profile_image.gif" alt="profileImage" >
 				</c:when>
 				<c:otherwise>				
 					<img src="${content.user.profileImageUrl}" alt="profileImage">
@@ -31,7 +31,7 @@
 		<%--로그인 안하면 빈하트와 좋아요 개수 --%>
 		<c:if test="${empty userId }">
 			<div class="mt-2 ml-2 d-flex justify-content-start align-items-center">
-				<div class="mr-3"><img src="/images/heart.png" alt="heart-logo" class="noLike heartLogo" width="40" height="40"></div>
+				<div class="mr-3"><img src="/static/images/heart.png" alt="heart-logo" class="noLike heartLogo" width="40" height="40"></div>
 				<div class="font-weight-bold">${content.likeCount}</div>
 			</div>
 		</c:if>
@@ -42,10 +42,10 @@
 				<a href="#">
 					<c:choose>
 						<c:when test= "${content.filledLike == false}">
-							<img src="/images/heart.png" alt="heart-logo" class="noLike heartLogo" width="40" height="40">
+							<img src="/static/images/heart.png" alt="heart-logo" class="noLike heartLogo" width="40" height="40">
 						</c:when>
 						<c:when test="${content.filledLike == true}">
-							<img src="/images/black_heart.png" alt="heart-logo" class="heartLogo noLike" width="40" height="40">
+							<img src="/static/images/black_heart.png" alt="heart-logo" class="heartLogo noLike" width="40" height="40">
 						</c:when>
 					</c:choose>
 				</a>
@@ -60,15 +60,22 @@
 			<div class="ml-4">${content.post.content}</div>
 		</div>
 		
-		<%--댓글쓰기 --%>
-			<div>
+		<%--댓글목록 --%>
+		<div class="comment-list-view" id="comments${commentView.post.id}">
 			<c:forEach var="commentView" items="${content.commentList}">
-					<span class="ml-2 font-weight-bold">${commentView.user.loginId} :</span>
-					<span class="ml-3">${commentView.comment.content}</span><br>
-				</c:forEach>  
-			</div>
+				<span class="ml-2 font-weight-bold">${commentView.user.loginId} :</span>
+				<span class="ml-3">${commentView.comment.content}</span>
+				<%--댓글 지우기 --%>
+				<c:if test="${commentView.user.id eq userId}">
+					<a href="#" class="commentDelete font-weight-bold text-danger text-decoration-none" data-comment-id="${commentView.comment.id}">delete</a>
+				</c:if>
+				<br>
+			</c:forEach>  
+		</div>
+		<small><a href="#" data-post-id="${commentView.post.id}" class="open-btn text-decoration-none text-secondary font-weight-bold">--------------read more--------------</a></small>
+		<%--댓글쓰기 --%>
 		<c:if test="${not empty userId}"> <%--로그인된 사람만 쓸수있다. --%>
-			<div class="d-flex justify-content-between">
+			<div class="comment-box d-flex justify-content-between align-items-center">
 				<input type="text" id ="commentText${content.post.id}" class="form-control border-0 mr-2 col-7 ml-2" placeholder="댓글">
 				<button type="button" class="commentBtn btn btn-primary mr-2" data-post-id="${content.post.id}">게시</button>
 			</div>
@@ -140,7 +147,42 @@ $(document).ready(function(e){
 		
 	});
 
-	 
+	$(".open-btn").on('click', function(e){
+		e.preventDefault();
+
+		let postId = $(this).data('post-id');
+		
+		if ($("#comments" + postId).hasClass('comment-list-view') == true) { //속성이 있다.
+			$("#comments" + postId).removeClass('comment-list-view');
+			$(this).text("--------------hide--------------");
+		} else if ($("#comments" + postId).hasClass('comment-list-view') == false) { //속성이 없다.
+			$("#comments" + postId).addClass('comment-list-view');
+			$(this).text("--------------read more--------------");
+		}
+		
+	});
+	
+	$(".commentDelete").on('click', function(e){
+		let commentId = $(this).data('comment-id');
+		
+		$.ajax({
+			type: "DELETE"
+			, url: "/comment/delete"
+			, data: {"commentId":commentId}
+			, success: function(data) {
+				if (data.result == 'success') {
+					alert("댓글이 삭제되었습니다.");
+					location.reload();
+				} else if (data.result == 'error') {
+					alert("댓글삭제가 실패했습니다.");
+				}
+			}
+			, error: function(e){
+				alert("error");
+			}
+		})
+	});
+	
 });
 
 </script>
