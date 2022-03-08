@@ -34,3 +34,6 @@ body {background-color:  #fafafa;}
 .userId {margin-top: 30px; margin-left: 50px; }
 
 .myPageContent{width:250px; height: 250px; background-color: blue;}
+
+.followeeList {width: 300px; margin-right: auto; margin-left:auto; }
+.followee-box {border: 0.5px solid; border-color: #c4c4c4; width:350px; margin-right: auto; margin-left:auto;}

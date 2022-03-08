@@ -29,10 +29,10 @@
 					게시물 <b>${postList.size()}</b>
 				</div>
 				<div class="col-4">
-					팔로워 <b>15</b>
+					<a href="/followee/follower_list_view/${user.id}" class="text-decoration-none text-dark">팔로워 <b>${followerList.size()}</b></a> 
 				</div>
 				<div class="col-4">
-					팔로우 <b>15</b>
+					<a href="/followee/followee_list_view/${user.id}" class="text-decoration-none text-dark">팔로우 <b>${followeeList.size()}</b></a> 
 				</div>
 			</div>
 			<%--이름과 자기소개 --%>

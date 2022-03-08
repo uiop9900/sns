@@ -16,6 +16,29 @@
 			AND `followerId` = #{followerId}
 	</select>
 	
+	<select id="selectFollowerListByUserId" parameterType="int" resultType="com.sns.followee.model.Followee">
+		SELECT
+			`userId` 
+			,`followerId`
+			,`createdAt`
+		FROM 
+			`followee`
+		WHERE 
+			`userId` = #{userId}
+	</select>
+	
+		<select id="selectFolloweeListByUserId" parameterType="int" resultType="com.sns.followee.model.Followee">
+		SELECT
+			`userId` 
+			,`followerId`
+			,`createdAt`
+		FROM 
+			`followee`
+		WHERE 
+			`followerId` = #{followerId}
+	</select>
+	
+	
 	<insert id="insertFollowee" parameterType="map">
 		INSERT INTO `followee`
 		(

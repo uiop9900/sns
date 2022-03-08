@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.sns.followee.bo.FolloweeBO;
+import com.sns.followee.model.Followee;
 import com.sns.post.bo.PostBO;
 import com.sns.post.model.Post;
 import com.sns.user.bo.UserBO;
@@ -25,6 +27,9 @@ public class UserController {
 	
 	@Autowired
 	private PostBO postBO;
+	
+	@Autowired
+	private FolloweeBO followeeBO;
 	
 	@RequestMapping("/sign_in_view")
 	public String singInView() {
@@ -67,9 +72,13 @@ public class UserController {
 		User user = userBO.getUserById(userId);
 		
 		List<Post> postList = postBO.getPostListByUserId(userId);
+		List<Followee> followeeList = followeeBO.getFolloweeListByUserId(userId);
+		List<Followee> followerList = followeeBO.getFollowerListByUserId(userId);
 		
 		model.addAttribute("user", user);
 		model.addAttribute("postList", postList);
+		model.addAttribute("followerList", followerList);
+		model.addAttribute("followeeList", followeeList);
 		model.addAttribute("viewName", "user/my_page_view");
 		
 		return "template/layout";
