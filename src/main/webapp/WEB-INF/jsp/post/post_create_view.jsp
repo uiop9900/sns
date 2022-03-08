@@ -4,7 +4,7 @@
 <div id="post-box">
 	<div class="mt-4">
 	   	<input type="file" id="file" class="d-none" accept=".jpg,.gif,.jepg,.png"> 
-	   	<a href="#" id="fileUploadBtn" ><img src="/images/postPicture.png" alt="add picture" width="100"></a> 
+	   	<a href="#" id="fileUploadBtn" ><img src="/static/images/postPicture.png" alt="add picture" width="100"></a> 
 	   	<span class="font-weight-bold">게시글 사진 추가</span>
 	</div>
     <div id="fileName" class="mt-4 ml-5">
